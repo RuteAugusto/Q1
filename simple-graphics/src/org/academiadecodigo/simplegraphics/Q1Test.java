@@ -18,7 +18,7 @@ public class Q1Test implements KeyboardHandler{
     public static void main(String[] args) throws InterruptedException {
 
 
-        Rectangle background = new Rectangle(10, 10, 400, 400);
+        Rectangle background = new Rectangle(10, 10, 800, 900);
         background.setColor(Color.BLACK);
         background.fill();
 
