@@ -78,17 +78,31 @@ public class Game implements KeyboardHandler {
 
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("LEFT");
+                if (planeRect.getX() == 10) {
+                    planeRect.translate(0, 0);
+
+                    break;
+                }
+
                 planeRect.translate(-10, 0);
                 break;
 
             case KeyboardEvent.KEY_RIGHT:
+                if (planeRect.getX() == 770) {
+                    planeRect.translate(0, 0);
+                    break;
+                }
                 System.out.println("RIGHT");
                 planeRect.translate(10, 0);
                 break;
 
         }
 
+
+
     }
+
+
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
