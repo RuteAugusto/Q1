@@ -15,6 +15,7 @@ public class Plane implements Collidable, Destroyable {
 
 
     public Plane(Rectangle plane) {
+
         this.damage = 0;
         this.life = 3;
         this.plane = plane;
@@ -22,10 +23,12 @@ public class Plane implements Collidable, Destroyable {
 
 
     public boolean isDestroyed() {
+
         return destroyed;
     }
 
     public void turnToDestroyed() {
+
         destroyed = true;
     }
 
