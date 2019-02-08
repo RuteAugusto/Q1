@@ -1,4 +1,4 @@
-package org.academiadecodigo.q1.Targets;
+package org.academiadecodigo.q1.hitTarget;
 
 import org.academiadecodigo.q1.Collidable;
 import org.academiadecodigo.q1.Destroyable;

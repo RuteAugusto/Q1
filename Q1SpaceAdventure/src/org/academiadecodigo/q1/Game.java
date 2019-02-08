@@ -2,7 +2,7 @@ package org.academiadecodigo.q1;
 
 import org.academiadecodigo.q1.Field.Field;
 import org.academiadecodigo.q1.Plane.Plane;
-import org.academiadecodigo.q1.Targets.Target;
+import org.academiadecodigo.q1.hitTarget.Target;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
