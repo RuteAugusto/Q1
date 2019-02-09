@@ -18,8 +18,15 @@ public class Plane implements Collidable, Destroyable {
         this.damage = 0;
         this.life = 3;
         this.plane = plane;
+
     }
 
+
+
+
+    public void setPlane(Rectangle plane) {
+        this.plane = plane;
+    }
 
     public boolean isDestroyed() {
         return destroyed;
