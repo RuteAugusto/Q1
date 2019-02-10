@@ -47,8 +47,8 @@ public class Target extends GameObject implements Collidable, Destroyable {
         return x;
     }
 
-    public int getY() {
-        return y;
+    public int targetGetY() {
+        return target.getY();
     }
 
 
