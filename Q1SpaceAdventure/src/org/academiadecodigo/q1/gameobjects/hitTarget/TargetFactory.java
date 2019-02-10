@@ -1,17 +1,24 @@
 package org.academiadecodigo.q1.gameobjects.hitTarget;
 
+import org.academiadecodigo.q1.Astronaut;
+
 public class TargetFactory {
 
     public static Target createTarget() {
+
+        int randomNumber = (int) Math.floor(Math.random() * 100) + 1;
 
         TargetType[] targetType = TargetType.values();
 
         TargetType newType = targetType[0];
 
-        switch (newType) {
 
-            case ASTEROID:
-                return new Asteroid();
+        if (randomNumber <= 59) {
+            return new Asteroid();
+        }
+
+        if (randomNumber > 59) {
+            return new Astronaut();
         }
 
         return null;

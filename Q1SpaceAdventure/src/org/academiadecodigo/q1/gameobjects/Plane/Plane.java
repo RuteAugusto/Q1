@@ -2,7 +2,6 @@ package org.academiadecodigo.q1.gameobjects.Plane;
 
 import org.academiadecodigo.q1.Collidable;
 import org.academiadecodigo.q1.Destroyable;
-import org.academiadecodigo.q1.gameobjects.GameObject;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
@@ -11,22 +10,25 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
 
-public class Plane extends GameObject implements Collidable, Destroyable, KeyboardHandler {
+public class Plane implements Collidable, Destroyable, KeyboardHandler {
 
     private int damage;
     private int life;
     private boolean destroyed;
-    private Rectangle plane;
+    private Rectangle planeRect;
 
 
     public Plane() {
         this.damage = 0;
         this.life = 3;
-        this.plane = new Rectangle(380, 840, 40,40);
-        this.plane.setColor(Color.YELLOW);
-        this.plane.fill();
+        this.planeRect = new Rectangle(380, 840, 40,40);
+        this.planeRect.setColor(Color.YELLOW);
+        this.planeRect.fill();
     }
 
+    public Rectangle getPlaneRect() {
+        return planeRect;
+    }
 
     public boolean isDestroyed() {
 
@@ -71,21 +73,21 @@ public class Plane extends GameObject implements Collidable, Destroyable, Keyboa
 
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("LEFT");
-                if (plane.getX() == 10) {
-                    plane.translate(0, 0);
+                if (planeRect.getX() == 10) {
+                    planeRect.translate(0, 0);
                     break;
                 }
 
-                plane.translate(-10, 0);
+                planeRect.translate(-10, 0);
                 break;
 
             case KeyboardEvent.KEY_RIGHT:
-                if (plane.getX() == 770) {
-                    plane.translate(0, 0);
+                if (planeRect.getX() == 770) {
+                    planeRect.translate(0, 0);
                     break;
                 }
                 System.out.println("RIGHT");
-                plane.translate(10, 0);
+                planeRect.translate(10, 0);
                 break;
 
         }
