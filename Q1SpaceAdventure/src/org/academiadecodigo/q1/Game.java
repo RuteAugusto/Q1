@@ -1,11 +1,11 @@
 package org.academiadecodigo.q1;
 
 import org.academiadecodigo.q1.Field.Field;
-import org.academiadecodigo.q1.gameobjects.GameObject;
 import org.academiadecodigo.q1.gameobjects.Plane.Plane;
 import org.academiadecodigo.q1.gameobjects.hitTarget.Asteroid;
 import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
 import org.academiadecodigo.q1.gameobjects.hitTarget.TargetFactory;
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ public class Game {
     private Plane plane;
     private Field field;
     private LinkedList<Target> movingTargets;
-    private int score;
+
 
 
     public Game() {
@@ -39,10 +39,10 @@ public class Game {
 
         movingTargets.add(TargetFactory.createTarget());
 
-        while (true) {
+        while (plane.getLife() != 0) {
 
 
-            Thread.sleep(50);
+            Thread.sleep(10);
 
             checkErased();
 
@@ -54,8 +54,11 @@ public class Game {
                 movingTargets.add(TargetFactory.createTarget());
             }
 
+            checkScore();
 
         }
+
+        System.out.println("GAME OVER!");
     }
 
     public void checkErased() {
@@ -67,8 +70,11 @@ public class Game {
         }
     }
 
-    public void checkScore() {
-        Text score = new Text(100, 100, "teste");
+    public void checkScore() { // TODO: 2019-02-10  "improve graphics"
+        int valueOfScore = player.getScore();
+        Text score = new Text(100, 100, String.valueOf(valueOfScore));
+        score.setColor(Color.WHITE);
+        score.draw();
     }
 
 
@@ -81,51 +87,33 @@ public class Game {
     public void checkCollision() {
         for (Target iterator : movingTargets) {
 
-            if ((plane.getPlaneRect().getX() - iterator.getRect().getX() < (iterator.getRect().getWidth() + plane.getPlaneRect().getWidth()) ) &&
-                ((plane.getPlaneRect().getX() - iterator.getRect().getX()) > - (iterator.getRect().getWidth() + plane.getPlaneRect().getWidth())) &&
 
-                ((plane.getPlaneRect().getY() - iterator.getRect().getY()) < iterator.getRect().getWidth()) &&
-                ((plane.getPlaneRect().getY() - iterator.getRect().getY()) > - iterator.getRect().getWidth())) {
+            if ((plane.getPlaneRect().getX() - iterator.getRect().getX() < (iterator.getRect().getWidth() + plane.getRect().getWidth()) ) &&
+                ((plane.getRect().getX() - iterator.getRect().getX()) > - (iterator.getRect().getWidth() + plane.getRect().getWidth())) &&
+
+                ((plane.getRect().getY() - iterator.getRect().getY()) < iterator.getRect().getHeight()) &&
+                ((plane.getRect().getY() - iterator.getRect().getY()) > - iterator.getRect().getHeight())) {
 
                 System.out.println("CRASH");
-                if (iterator instanceof Astronaut) {
-                    score += 10;
-                    System.out.println(score);
+
+                //System.out.println(plane.getPlaneRect().getX() + " " +  iterator.getRect().getX() + " " + iterator.getRect().getWidth() + " " + plane.getPlaneRect().getWidth());
+                //System.out.println(plane.getPlaneRect().getY() + " " +  iterator.getRect().getY() + " " + iterator.getRect().getHeight() + " " + plane.getPlaneRect().getHeight());
+                if (iterator instanceof Astronaut) { // TODO: 2019-02-10 "improve graphics"
+                    player.setScore(10);
+                    System.out.println(player.getScore());
                 }
+
+                if (iterator instanceof Asteroid) {
+                    plane.setDamage(50);
+                    System.out.println("ACTUAL DAMAGE: " + plane.getDamage());
+                    System.out.println("ACTUAL LIFE: " + plane.getLife());
+                }
+
+
                 iterator.eraseTarget();
 
                 break;
             }
-
-
         }
     }
-
-    /*
-    public boolean getXRange() {
-        if ((plane.getPlaneRect().getX() - target.getX) < 60
-                && (plane.getPlaneRect().getX() - target.getTargetX()) > -60) {
-            return true;
-        }
-        return false;
-
-
-    }
-
-    public boolean getYRange() {
-        if ((plane.getPlaneRect().getY() - target.getTargetY()) < 60
-                && (plane.getPlaneRect().getY() - target.getTargetY()) > -60) {
-            return true;
-        }
-        return false;
-
-
-    }
-
-    if (getYRange() && getXRange()) {
-        System.out.println("CRASH");
-        iterator.eraseTarget();
-        break;
-    }
-    */
 }

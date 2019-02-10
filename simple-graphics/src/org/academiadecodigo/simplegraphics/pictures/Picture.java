@@ -113,8 +113,11 @@ public class Picture implements Shape, Movable {
      *
      * @return the leftmost x-position
      */
-    public int getX() {
+    /*public int getX() {
         return (int) Math.round(x - xGrow);
+    }*/
+    public  int getX() {
+        return (int) Math.round(x);
     }
 
     /**
@@ -122,8 +125,12 @@ public class Picture implements Shape, Movable {
      *
      * @return the topmost y-position
      */
-    public int getY() {
+    /*public int getY() {
         return (int) Math.round(y - yGrow);
+    }*/
+
+    public int getY() {
+        return (int) Math.round(y);
     }
 
     /**
