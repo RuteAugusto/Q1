@@ -1,8 +1,7 @@
 package org.academiadecodigo.q1.gameobjects.Plane;
 
-import org.academiadecodigo.q1.Collidable;
 import org.academiadecodigo.q1.Destroyable;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -10,68 +9,50 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 
-public class Plane implements Collidable, Destroyable, KeyboardHandler {
+public class Plane implements KeyboardHandler {
 
-    private int damage;
     private int life;
     private boolean destroyed;
     private Picture plane;
-    private Rectangle border;
 
 
     public Plane() {
-        this.damage = 0;
         this.life = 3;
-        this.border = new Rectangle (380, 740, 67, 85);
         this.plane = new Picture(380, 740, "resources/spaceShip_67x85.png");
         this.plane.draw();
     }
 
-    public Picture getPlaneRect() {
-        return plane;
-    }
-
-    public Rectangle getRect() {
-        return border;
-    }
-
-    public boolean isDestroyed() {
-        return destroyed;
-    }
-
-    public void turnToDestroyed() {
-        destroyed = true;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage += damage;
-
-        if (damage == 100) {
-            turnToDestroyed();
-        }
-
-    }
 
     public int getLife() {
         return life;
     }
 
     public void setLife(int life) {
-        this.life = life;
+        this.life -= life;
     }
 
-    @Override
-    public void destroy() {
 
-    }
-
-    @Override
-    public void collide() {
-
+    public boolean collide(Target obj) {
+        int tw = plane.getWidth();
+        int th = plane.getHeight();
+        int rw = obj.getWidth();
+        int rh = obj.getHeight();
+        if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+            return false;
+        }
+        int tx = plane.getX();
+        int ty = plane.getY();
+        int rx = obj.targetGetX();
+        int ry = obj.targetGetY();
+        rw += rx;
+        rh += ry;
+        tw += tx;
+        th += ty;
+        //      overflow || intersect
+        return ((rw < rx || rw > tx) &&
+                (rh < ry || rh > ty) &&
+                (tw < tx || tw > rx) &&
+                (th < ty || th > ry));
     }
 
     public void movePlane() {
@@ -89,7 +70,6 @@ public class Plane implements Collidable, Destroyable, KeyboardHandler {
 
     }
 
-
     @Override
     public void keyPressed(KeyboardEvent event) {
 
@@ -102,7 +82,7 @@ public class Plane implements Collidable, Destroyable, KeyboardHandler {
                     break;
                 }
 
-                plane.translate(-20, 0);
+                plane.translate(-30, 0);
                 break;
 
             case KeyboardEvent.KEY_RIGHT:
@@ -111,16 +91,16 @@ public class Plane implements Collidable, Destroyable, KeyboardHandler {
                     break;
                 }
                 System.out.println("RIGHT");
-                plane.translate(20, 0);
+                plane.translate(30, 0);
                 break;
 
         }
     }
 
 
-
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
     }
+
 }

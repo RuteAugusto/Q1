@@ -1,36 +1,25 @@
 package org.academiadecodigo.q1;
 
 import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Astronaut extends Target {
 
-    private boolean rescued;
-    private int damage;
-    private int x;
     private int y = 20;
     private Picture astronaut;
     private boolean erased;
-    private Rectangle border;
-    private int score;
 
     public Astronaut() {
-        this.border = new Rectangle(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y, 34, 55);
-        border.setColor(Color.BLACK);
-        border.draw();
-        this.astronaut = new Picture(border.getX(), y, "resources/astronaut_38x60.png");
+        this.astronaut = new Picture(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y, "resources/astronaut_38x60.png");
         astronaut.draw();
     }
 
     @Override
     public void moveTarget() {
 
-        if(y != Target.PIXELWHERETODISAPPEAR){
-            border.translate(0,1);
-            astronaut.translate(0, 1);
-            y +=1;
+        if (y != Target.PIXELWHERETODISAPPEAR) {
+            astronaut.translate(0, 2);
+            y += 2;
             return;
         }
         eraseTarget();
@@ -42,9 +31,13 @@ public class Astronaut extends Target {
     }
 
     @Override
+    public int targetGetX() {
+        return astronaut.getX();
+    }
+
+    @Override
     public void eraseTarget() {
         erased = true;
-        border.delete();
         astronaut.delete();
     }
 
@@ -52,14 +45,14 @@ public class Astronaut extends Target {
         return erased;
     }
 
+
     @Override
-    public Picture getRect() {
-        return astronaut;
+    public int getHeight() {
+        return astronaut.getHeight();
     }
 
-    /*
-    public Rectangle getRect() {
-        return border;
+    @Override
+    public int getWidth() {
+        return astronaut.getWidth();
     }
-    */
 }

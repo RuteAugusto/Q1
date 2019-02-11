@@ -1,10 +1,8 @@
 package org.academiadecodigo.q1.Field;
 
-import org.academiadecodigo.q1.Collidable;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public  class  Field implements Collidable {
+public  class  Field {
 
     private Picture background;
     private final int WIDTH = 800;
@@ -26,8 +24,4 @@ public  class  Field implements Collidable {
         return WIDTH;
     }
 
-    @Override
-    public void collide() {
-
-    }
 }

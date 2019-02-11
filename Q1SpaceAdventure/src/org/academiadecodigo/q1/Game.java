@@ -5,8 +5,7 @@ import org.academiadecodigo.q1.gameobjects.Plane.Plane;
 import org.academiadecodigo.q1.gameobjects.hitTarget.Asteroid;
 import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
 import org.academiadecodigo.q1.gameobjects.hitTarget.TargetFactory;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.LinkedList;
 
@@ -18,6 +17,7 @@ public class Game {
     private Field field;
     private LinkedList<Target> movingTargets;
 
+    private Picture gameOver;
 
 
     public Game() {
@@ -31,6 +31,9 @@ public class Game {
         plane = new Plane();
         movingTargets = new LinkedList<>();
 
+        gameOver = new Picture(10, 10, "GameOver_800x900.png");
+
+
     }
 
     public void start() throws InterruptedException {
@@ -42,7 +45,7 @@ public class Game {
         while (plane.getLife() != 0) {
 
 
-            Thread.sleep(10);
+            Thread.sleep(5);
 
             checkErased();
 
@@ -53,28 +56,19 @@ public class Game {
             if (movingTargets.peekLast().targetGetY() == field.getHeigth() - 700) {
                 movingTargets.add(TargetFactory.createTarget());
             }
-
-            checkScore();
-
         }
 
-        System.out.println("GAME OVER!");
+        System.out.println("Game Over");
+        gameOver.draw();
     }
 
     public void checkErased() {
 
-        for(int i = 0; i < movingTargets.size(); i++) {
+        for (int i = 0; i < movingTargets.size(); i++) {
             if (movingTargets.get(i).isErased()) {
                 movingTargets.remove();
             }
         }
-    }
-
-    public void checkScore() { // TODO: 2019-02-10  "improve graphics"
-        int valueOfScore = player.getScore();
-        Text score = new Text(100, 100, String.valueOf(valueOfScore));
-        score.setColor(Color.WHITE);
-        score.draw();
     }
 
 
@@ -87,31 +81,22 @@ public class Game {
     public void checkCollision() {
         for (Target iterator : movingTargets) {
 
-
-            if ((plane.getPlaneRect().getX() - iterator.getRect().getX() < (iterator.getRect().getWidth() + plane.getRect().getWidth()) ) &&
-                ((plane.getRect().getX() - iterator.getRect().getX()) > - (iterator.getRect().getWidth() + plane.getRect().getWidth())) &&
-
-                ((plane.getRect().getY() - iterator.getRect().getY()) < iterator.getRect().getHeight()) &&
-                ((plane.getRect().getY() - iterator.getRect().getY()) > - iterator.getRect().getHeight())) {
+            if (plane.collide(iterator)) {
 
                 System.out.println("CRASH");
 
-                //System.out.println(plane.getPlaneRect().getX() + " " +  iterator.getRect().getX() + " " + iterator.getRect().getWidth() + " " + plane.getPlaneRect().getWidth());
-                //System.out.println(plane.getPlaneRect().getY() + " " +  iterator.getRect().getY() + " " + iterator.getRect().getHeight() + " " + plane.getPlaneRect().getHeight());
-                if (iterator instanceof Astronaut) { // TODO: 2019-02-10 "improve graphics"
+
+                if (iterator instanceof Astronaut) {
                     player.setScore(10);
                     System.out.println(player.getScore());
                 }
 
                 if (iterator instanceof Asteroid) {
-                    plane.setDamage(50);
-                    System.out.println("ACTUAL DAMAGE: " + plane.getDamage());
+                    plane.setLife(1);
                     System.out.println("ACTUAL LIFE: " + plane.getLife());
                 }
 
-
                 iterator.eraseTarget();
-
                 break;
             }
         }
