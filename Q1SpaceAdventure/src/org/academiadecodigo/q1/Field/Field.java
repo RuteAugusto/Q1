@@ -10,7 +10,7 @@ public  class  Field {
 
     public Field() {
 
-        background = new Picture(10, 10, "resources/background_800x900.png");
+        background = new Picture(10, 10, "background_800x900.png");
         background.draw();
     }
 

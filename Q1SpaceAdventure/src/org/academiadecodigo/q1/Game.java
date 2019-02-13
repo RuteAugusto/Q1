@@ -18,7 +18,10 @@ public class Game {
     private LinkedList<Target> movingTargets;
 
     private Picture gameOver;
-
+    private Picture zeroLives;
+    private Picture oneLife;
+    private Picture twoLives;
+    private Picture threeLives;
 
     public Game() {
 
@@ -31,9 +34,11 @@ public class Game {
         plane = new Plane();
         movingTargets = new LinkedList<>();
 
+        threeLives = new Picture(10,10,"3lives.png");
+        twoLives = new Picture(10,10, "2lives.png");
+        oneLife = new Picture(10,10,"1life.png");
         gameOver = new Picture(10, 10, "GameOver_800x900.png");
-
-
+        zeroLives = new Picture(10,10, "0life.png");
     }
 
     public void start() throws InterruptedException {
@@ -43,7 +48,6 @@ public class Game {
         movingTargets.add(TargetFactory.createTarget());
 
         while (plane.getLife() != 0) {
-
 
             Thread.sleep(5);
 
@@ -60,6 +64,23 @@ public class Game {
 
         System.out.println("Game Over");
         gameOver.draw();
+        zeroLives.draw();
+    }
+
+    public void checkLife(){
+
+        if(plane.getLife() == 3){
+            threeLives.draw();
+        }
+
+        if(plane.getLife() == 2){
+            System.out.println("teste");
+            twoLives.draw();
+        }
+
+        if(plane.getLife() == 1){
+            oneLife.draw();
+        }
     }
 
     public void checkErased() {
@@ -94,6 +115,8 @@ public class Game {
                 if (iterator instanceof Asteroid) {
                     plane.setLife(1);
                     System.out.println("ACTUAL LIFE: " + plane.getLife());
+                    checkLife();
+                   // System.out.println("rhkgjhkjfgk");
                 }
 
                 iterator.eraseTarget();

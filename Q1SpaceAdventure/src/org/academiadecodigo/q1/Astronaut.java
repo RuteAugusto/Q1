@@ -10,7 +10,7 @@ public class Astronaut extends Target {
     private boolean erased;
 
     public Astronaut() {
-        this.astronaut = new Picture(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y, "resources/astronaut_38x60.png");
+        this.astronaut = new Picture(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y, "astronaut_38x60.png");
         astronaut.draw();
     }
 

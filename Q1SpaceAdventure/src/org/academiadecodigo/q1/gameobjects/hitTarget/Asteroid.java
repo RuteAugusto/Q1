@@ -9,7 +9,7 @@ public class Asteroid extends Target {
     private boolean erased;
 
     public Asteroid() {
-        this.asteroid = new Picture(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y, "resources/asteroid_80x90.png");
+        this.asteroid = new Picture(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y, "asteroid_80x90.png");
         asteroid.draw();
     }
 
