@@ -196,14 +196,15 @@ public class Game {
 
                     System.out.println(player.getScore());
                     System.out.println(delay + ", " + delayNano);
-                    if (delayNano == 1) {
-                        delay--;
-                        delayNano = 900001;
-                        continue;
+                    if (delay != 1 || delayNano != 1) {
+                        if (delayNano == 1) {
+                            delay--;
+                            delayNano = 900001;
+                            continue;
+                        }
+                        delayNano -= 100000;
+                        //rescued++;
                     }
-                    delayNano -= 100000;
-                    //rescued++;
-
                 }
 
                 if (iterator instanceof Asteroid) {
