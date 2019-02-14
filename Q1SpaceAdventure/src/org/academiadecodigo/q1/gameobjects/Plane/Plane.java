@@ -20,7 +20,6 @@ public class Plane implements KeyboardHandler {
         this.plane.draw();
     }
 
-
     public int getLife() {
         return life;
     }

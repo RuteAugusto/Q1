@@ -15,7 +15,7 @@ import java.util.LinkedList;
 
 public class Game {
 
-    private Player player;
+    private Player player = new Player();
     private Plane plane;
     private Field field;
     private LinkedList<Target> movingTargets;
@@ -42,61 +42,117 @@ public class Game {
         this.delayNano = delayNano;
     }
 
+    public void menuLoop() {
+        init();
+
+        while (player.isStart()) {
+            System.out.println("Press 1");
+        }
+
+        System.out.println("1 PRESSED");
+        start();
+    }
+
     public void init() {
 
         menu = new Picture(10, 10, "Menu.png");
 
         instructions = new Picture(10, 10, "Instructions.png");
 
+        initGameObjects();
 
+        initText();
+
+        initGamePictures();
+
+        initSound();
+
+        player.startButton();
+
+        plane.movePlane();
+
+        menu.draw();
+
+        gameMusic.play(true);
+    }
+
+    private void initGameObjects() {
         field = new Field();
-        player = new Player();
         plane = new Plane();
         movingTargets = new LinkedList<>();
+    }
 
-
+    private void initText() {
         score = String.valueOf(player.getScore());
         text = new Text(700, 100, score);
         text.setColor(Color.WHITE);
-        text.grow(25,25);
+        text.grow(25, 25);
+    }
 
+    private void initGamePictures() {
         threeLives = new Picture(10, 10, "3lives.png");
         twoLives = new Picture(10, 10, "2lives.png");
         oneLife = new Picture(10, 10, "1life.png");
         gameOver = new Picture(10, 10, "GameOver_800x900.png");
         zeroLives = new Picture(10, 10, "0life.png");
+    }
 
+    private void initSound() {
         gameMusic = new Sound("/resources/Space_Lady.wav");
         gameOverSound = new Sound("/resources/game-over-arcade.wav");
         ohNoSound = new Sound("/resources/oh no sound effect.wav");
-
-        plane.movePlane();
-
-        menu.draw();
     }
 
-    public void start() throws InterruptedException {
 
-        gameMusic.play(true);
+    public void start() {
 
-        Thread.sleep(1000);
+        try {
+            beginning();
+
+            gameLoop();
+
+            gameOver();
+
+            Thread.sleep(1000);
+
+            gameOverStep2();
+
+            Thread.sleep(2000);
+
+            closeAudioStreams();
+
+            player.restartButton();
+            System.out.println("Player restart reached");
+
+            while (!player.isRestart()) {
+                System.out.println("Are you ready for another round?");
+                newGame();
+            }
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+            System.err.println(ex.getMessage());
+        }
+
+    }
+
+
+    private void beginning() throws InterruptedException{
+
+
+        Thread.sleep(3000);
 
         menu.delete();
-
         instructions.draw();
 
-        Thread.sleep(1000);
-
+        Thread.sleep(7000);
         instructions.delete();
-
         threeLives.draw();
-
         text.draw();
-
-
-
         movingTargets.add(TargetFactory.createTarget());
+    }
 
+    private void gameLoop() throws InterruptedException {
         while (plane.getLife() != 0) {
 
             Thread.sleep(delay, delayNano);
@@ -111,7 +167,9 @@ public class Game {
                 movingTargets.add(TargetFactory.createTarget());
             }
         }
+    }
 
+    private void gameOver() {
         gameOver.draw();
 
         text.delete();
@@ -119,22 +177,21 @@ public class Game {
         text.draw();
 
         gameMusic.stop();
-        gameMusic.close();
+
         gameOverSound.play(true);
-        Thread.sleep(1000);
+
+    }
+
+    private void gameOverStep2() {
         gameOverSound.stop();
-        gameOverSound.close();
         ohNoSound.play(true);
-        Thread.sleep(5000);
+    }
+
+    private void closeAudioStreams() {
         ohNoSound.stop();
+        gameMusic.close();
+        gameOverSound.close();
         ohNoSound.close();
-
-        player.restart();
-        while (!player.isRestart()) {
-            System.out.println("sfddsdf");
-            newGame();
-        }
-
     }
 
     public void checkLife() {
@@ -161,13 +218,12 @@ public class Game {
         }
     }
 
-    private void newGame() throws InterruptedException {
+    private void newGame() {
         if (player.isRestart()) {
-            plane.setLife(-3);
             gameOver.delete();
-            start();
+            menuLoop();
             player.setRestart();
-
+            player.setStart();
         }
     }
 
@@ -184,14 +240,13 @@ public class Game {
 
                 System.out.println("CRASH");
 
-
                 if (iterator instanceof Astronaut) {
                     text.delete();
                     player.setScore(1);
                     score = String.valueOf(player.getScore());
                     text = new Text(700, 75, score);
                     text.setColor(Color.WHITE);
-                    text.grow(25,25);
+                    text.grow(25, 25);
                     text.draw();
 
                     System.out.println(player.getScore());
@@ -202,8 +257,6 @@ public class Game {
                         continue;
                     }
                     delayNano -= 100000;
-                    //rescued++;
-
                 }
 
                 if (iterator instanceof Asteroid) {
