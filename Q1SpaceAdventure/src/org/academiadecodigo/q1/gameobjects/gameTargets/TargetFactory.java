@@ -1,6 +1,4 @@
-package org.academiadecodigo.q1.gameobjects.hitTarget;
-
-import org.academiadecodigo.q1.Astronaut;
+package org.academiadecodigo.q1.gameobjects.gameTargets;
 
 public class TargetFactory {
 

@@ -1,5 +1,7 @@
 package org.academiadecodigo.q1;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -8,6 +10,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 public class Player implements KeyboardHandler {
 
     private int score;
+    private String scoreString;
+    private Text scoreText;
     private boolean start = true;
     private boolean restart;
 
@@ -25,6 +29,14 @@ public class Player implements KeyboardHandler {
         restart.setKey(KeyboardEvent.KEY_SPACE);
         restart.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(restart);
+    }
+
+    public void drawScoreText() {
+        scoreText.draw();
+    }
+
+    public void deleteScoreText() {
+        scoreText.delete();
     }
 
     public boolean isStart() {
@@ -49,6 +61,14 @@ public class Player implements KeyboardHandler {
 
     public void setScore(int score) {
         this.score += score;
+    }
+
+    public void setTextScore(int playerScore) {
+        scoreString = String.valueOf(playerScore);
+
+        scoreText = new Text(700, 60, scoreString);
+        scoreText.setColor(Color.WHITE);
+        scoreText.grow(15, 20);
     }
 
     @Override

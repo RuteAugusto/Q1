@@ -1,6 +1,5 @@
-package org.academiadecodigo.q1;
+package org.academiadecodigo.q1.gameobjects.gameTargets;
 
-import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Astronaut extends Target {
@@ -10,14 +9,14 @@ public class Astronaut extends Target {
     private Picture astronaut;
 
     public Astronaut() {
-        this.astronaut = new Picture(random(Target.MINPixelWhereToAppear, Target.MAXPixelWhereToAppear), y,
-                "astronaut_38x60.png");
+        this.astronaut = new Picture(random(Target.MIN_PIXEL_WHERE_TO_APPEAR, Target.MAX_PIXEL_WHERE_TO_APPEAR),
+                y, "astronaut_38x60.png");
         astronaut.draw();
     }
 
     @Override
     public void moveTarget() {
-        if (y != Target.PIXELWHERETODISAPPEAR) {
+        if (y != Target.PIXEL_WHERE_TO_DISAPPEAR) {
             astronaut.translate(0, 2);
             y += 2;
             return;

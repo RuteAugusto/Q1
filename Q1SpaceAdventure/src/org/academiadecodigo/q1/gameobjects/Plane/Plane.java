@@ -1,8 +1,6 @@
 package org.academiadecodigo.q1.gameobjects.Plane;
 
-import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Text;
+import org.academiadecodigo.q1.gameobjects.gameTargets.Target;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -12,8 +10,6 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class Plane implements KeyboardHandler {
 
     private int life;
-    private String scoreString;
-    private Text scoreText;
     private Picture plane;
     private Picture zeroLives;
     private Picture oneLife;
@@ -53,31 +49,23 @@ public class Plane implements KeyboardHandler {
         }
     }
 
-    public void drawScoreText() {
-        scoreText.draw();
-    }
-
-    public void deleteScoreText() {
-        scoreText.delete();
-    }
-
-    public boolean collide(Target obj) {
+    public boolean collide(Target target) {
         int tw = plane.getWidth();
         int th = plane.getHeight();
-        int rw = obj.getWidth();
-        int rh = obj.getHeight();
+        int rw = target.getWidth();
+        int rh = target.getHeight();
         if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
             return false;
         }
         int tx = plane.getX();
         int ty = plane.getY();
-        int rx = obj.targetGetX();
-        int ry = obj.targetGetY();
+        int rx = target.targetGetX();
+        int ry = target.targetGetY();
         rw += rx;
         rh += ry;
         tw += tx;
         th += ty;
-        //      overflow || intersect
+
         return ((rw < rx || rw > tx) &&
                 (rh < ry || rh > ty) &&
                 (tw < tx || tw > rx) &&
@@ -114,14 +102,6 @@ public class Plane implements KeyboardHandler {
 
     public void setLife(int life) {
         this.life -= life;
-    }
-
-    public void setTextScore(int playerScore) {
-        scoreString = String.valueOf(playerScore);
-
-        scoreText = new Text(700, 70, scoreString);
-        scoreText.setColor(Color.WHITE);
-        scoreText.grow(15, 20);
     }
 
     @Override

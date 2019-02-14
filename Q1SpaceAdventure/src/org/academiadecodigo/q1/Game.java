@@ -2,11 +2,13 @@ package org.academiadecodigo.q1;
 
 import org.academiadecodigo.q1.Field.Field;
 import org.academiadecodigo.q1.gameobjects.Plane.Plane;
-import org.academiadecodigo.q1.gameobjects.hitTarget.Asteroid;
-import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
-import org.academiadecodigo.q1.gameobjects.hitTarget.TargetFactory;
+import org.academiadecodigo.q1.gameobjects.gameTargets.Asteroid;
+import org.academiadecodigo.q1.gameobjects.gameTargets.Astronaut;
+import org.academiadecodigo.q1.gameobjects.gameTargets.Target;
+import org.academiadecodigo.q1.gameobjects.gameTargets.TargetFactory;
 import org.academiadecodigo.q1.sound.Sound;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+
 import java.util.LinkedList;
 
 public class Game {
@@ -26,7 +28,6 @@ public class Game {
     private Sound gameMusic;
     private Sound gameOverSound;
     private Sound ohNoSound;
-    private Sound gotcha;
     private Sound crash;
 
     public void menuLoop() {
@@ -101,16 +102,19 @@ public class Game {
 
     private void beginning() throws InterruptedException {
         menu.delete();
+
         instructions.draw();
 
         Thread.sleep(7000);
 
         instructions.delete();
         field.draw();
+
         plane.drawLifePictures();
-        plane.setTextScore(player.getScore());
-        plane.drawScoreText();
+        player.setTextScore(player.getScore());
+        player.drawScoreText();
         plane.draw();
+
         movingTargets.add(TargetFactory.createTarget());
     }
 
@@ -118,7 +122,7 @@ public class Game {
         while (plane.getLife() != 0) {
             Thread.sleep(delay, delayNano);
 
-            checkErased();
+            checkErasedTargets();
             moveAllTargets();
             checkCollision();
 
@@ -128,16 +132,16 @@ public class Game {
                     break;
                 }
             }
-
-
         }
     }
 
     private void gameOver() {
         gameOver.draw();
-        plane.deleteScoreText();
+
+        player.deleteScoreText();
         plane.drawLifePictures();
-        plane.drawScoreText();
+        player.drawScoreText();
+
         gameMusic.stop();
         gameOverSound.play(true);
     }
@@ -149,7 +153,6 @@ public class Game {
 
     private void closeAudioStreams() {
         ohNoSound.stop();
-        //gotcha.close();
         crash.close();
         gameMusic.close();
         gameOverSound.close();
@@ -158,19 +161,19 @@ public class Game {
 
     public void checkLife() {
         if (plane.getLife() == 2) {
-            plane.deleteScoreText();
+            player.deleteScoreText();
             plane.drawLifePictures();
-            plane.drawScoreText();
+            player.drawScoreText();
         }
 
         if (plane.getLife() == 1) {
-            plane.deleteScoreText();
+            player.deleteScoreText();
             plane.drawLifePictures();
-            plane.drawScoreText();
+            player.drawScoreText();
         }
     }
 
-    public void checkErased() {
+    public void checkErasedTargets() {
         for (int i = 0; i < movingTargets.size(); i++) {
             if (movingTargets.get(i).isErased()) {
                 movingTargets.remove(i);
@@ -184,11 +187,10 @@ public class Game {
             if (plane.collide(target)) {
 
                 if (target instanceof Astronaut) {
-                    //gotcha.play(true);
-                    plane.deleteScoreText();
+                    player.deleteScoreText();
                     player.setScore(1);
-                    plane.setTextScore(player.getScore());
-                    plane.drawScoreText();
+                    player.setTextScore(player.getScore());
+                    player.drawScoreText();
                     setNewThreadSleep();
                 }
 
