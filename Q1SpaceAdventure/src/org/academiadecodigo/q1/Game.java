@@ -15,22 +15,15 @@ import java.util.LinkedList;
 
 public class Game {
 
-    private Player player = new Player();
+    private Player player;
     private Plane plane;
     private Field field;
     private LinkedList<Target> movingTargets;
     private int delay;
     private int delayNano;
 
-    private Text text;
-    private String score;
-
     private Picture menu;
     private Picture instructions;
-    private Picture zeroLives;
-    private Picture oneLife;
-    private Picture twoLives;
-    private Picture threeLives;
     private Picture gameOver;
 
     private Sound gameMusic;
@@ -43,6 +36,7 @@ public class Game {
     }
 
     public void menuLoop() {
+        player = new Player();
         init();
 
         while (player.isStart()) {
@@ -54,16 +48,13 @@ public class Game {
     }
 
     public void init() {
-
         menu = new Picture(10, 10, "Menu.png");
 
         instructions = new Picture(10, 10, "Instructions.png");
 
+        gameOver = new Picture(10, 10, "GameOver_800x900.png");
+
         initGameObjects();
-
-        initText();
-
-        initGamePictures();
 
         initSound();
 
@@ -80,21 +71,6 @@ public class Game {
         field = new Field();
         plane = new Plane();
         movingTargets = new LinkedList<>();
-    }
-
-    private void initText() {
-        score = String.valueOf(player.getScore());
-        text = new Text(700, 100, score);
-        text.setColor(Color.WHITE);
-        text.grow(25, 25);
-    }
-
-    private void initGamePictures() {
-        threeLives = new Picture(10, 10, "3lives.png");
-        twoLives = new Picture(10, 10, "2lives.png");
-        oneLife = new Picture(10, 10, "1life.png");
-        gameOver = new Picture(10, 10, "GameOver_800x900.png");
-        zeroLives = new Picture(10, 10, "0life.png");
     }
 
     private void initSound() {
@@ -123,6 +99,7 @@ public class Game {
             player.restartButton();
             System.out.println("Player restart reached");
 
+
             while (!player.isRestart()) {
                 System.out.println("Are you ready for another round?");
                 newGame();
@@ -136,18 +113,15 @@ public class Game {
     }
 
 
-    private void beginning() throws InterruptedException{
-
-
-        Thread.sleep(3000);
-
+    private void beginning() throws InterruptedException {
         menu.delete();
         instructions.draw();
-
         Thread.sleep(7000);
         instructions.delete();
-        threeLives.draw();
-        text.draw();
+
+        plane.drawLifePictures();
+        plane.setTextScore(player.getScore());
+        plane.drawScoreText();
         movingTargets.add(TargetFactory.createTarget());
     }
 
@@ -171,9 +145,9 @@ public class Game {
     private void gameOver() {
         gameOver.draw();
 
-        text.delete();
-        zeroLives.draw();
-        text.draw();
+        plane.deleteScoreText();
+        plane.drawLifePictures();
+        plane.drawScoreText();
 
         gameMusic.stop();
 
@@ -196,15 +170,15 @@ public class Game {
     public void checkLife() {
 
         if (plane.getLife() == 2) {
-            text.delete();
-            twoLives.draw();
-            text.draw();
+            plane.deleteScoreText();
+            plane.drawLifePictures();
+            plane.drawScoreText();
         }
 
         if (plane.getLife() == 1) {
-            text.delete();
-            oneLife.draw();
-            text.draw();
+            plane.deleteScoreText();
+            plane.drawLifePictures();
+            plane.drawScoreText();
         }
     }
 
@@ -221,6 +195,7 @@ public class Game {
         if (player.isRestart()) {
             gameOver.delete();
             menuLoop();
+
             player.setRestart();
             player.setStart();
         }
@@ -237,27 +212,12 @@ public class Game {
 
             if (plane.collide(iterator)) {
 
-                System.out.println("CRASH");
-
                 if (iterator instanceof Astronaut) {
-                    text.delete();
+                    plane.deleteScoreText();
                     player.setScore(1);
-                    score = String.valueOf(player.getScore());
-                    text = new Text(700, 75, score);
-                    text.setColor(Color.WHITE);
-                    text.grow(25, 25);
-                    text.draw();
-
-                    System.out.println(player.getScore());
-                    System.out.println(delay + ", " + delayNano);
-                    if (delay != 1 || delayNano != 1) {
-                        if (delayNano == 1) {
-                            delay--;
-                            delayNano = 900001;
-                            continue;
-                        }
-                        delayNano -= 100000;
-                    }
+                    plane.setTextScore(player.getScore());
+                    plane.drawScoreText();
+                    setNewThreadSleep();
                 }
 
                 if (iterator instanceof Asteroid) {
@@ -269,6 +229,19 @@ public class Game {
                 iterator.eraseTarget();
                 break;
             }
+        }
+    }
+
+    public void setNewThreadSleep() {
+        System.out.println(player.getScore());
+        System.out.println(delay + ", " + delayNano);
+        if (delay != 1 || delayNano != 1) {
+            if (delayNano == 1) {
+                delay--;
+                delayNano = 900001;
+
+            }
+            delayNano -= 100000;
         }
     }
 }

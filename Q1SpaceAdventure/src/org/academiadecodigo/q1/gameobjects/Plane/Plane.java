@@ -1,6 +1,8 @@
 package org.academiadecodigo.q1.gameobjects.Plane;
 
 import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -12,12 +14,44 @@ public class Plane implements KeyboardHandler {
 
     private int life;
     private Picture plane;
+    private String scoreIntext;
+    private Text scoreText;
+    private Picture zeroLives;
+    private Picture oneLife;
+    private Picture twoLives;
+    private Picture threeLives;
 
 
     public Plane() {
         this.life = 3;
         this.plane = new Picture(380, 740, "spaceShip_67x85.png");
         this.plane.draw();
+        threeLives = new Picture(10, 10, "3lives.png");
+        twoLives = new Picture(10, 10, "2lives.png");
+        oneLife = new Picture(10, 10, "1life.png");
+        zeroLives = new Picture(10, 10, "0life.png");
+    }
+
+    public void drawLifePictures() {
+        switch (life) {
+
+            case 3:
+                threeLives.draw();
+                break;
+
+            case 2:
+               twoLives.draw();
+                break;
+
+            case 1:
+                oneLife.draw();
+                break;
+
+            case 0:
+                zeroLives.draw();
+
+        }
+
     }
 
     public int getLife() {
@@ -28,6 +62,21 @@ public class Plane implements KeyboardHandler {
         this.life -= life;
     }
 
+    public void setTextScore(int playerScore) {
+        scoreIntext = String.valueOf(playerScore);
+
+        scoreText = new Text(700, 100, scoreIntext);
+        scoreText.setColor(Color.WHITE);
+        scoreText.grow(25, 25);
+    }
+
+    public void drawScoreText() {
+        scoreText.draw();
+    }
+
+    public void deleteScoreText() {
+        scoreText.delete();
+    }
 
     public boolean collide(Target obj) {
         int tw = plane.getWidth();
@@ -54,17 +103,18 @@ public class Plane implements KeyboardHandler {
 
     public void movePlane() {
 
-            Keyboard keyboard = new Keyboard(this);
+        Keyboard keyboard = new Keyboard(this);
 
-            KeyboardEvent moveLeft = new KeyboardEvent();
-            moveLeft.setKey(KeyboardEvent.KEY_LEFT);
-            moveLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(moveLeft);
+        KeyboardEvent moveLeft = new KeyboardEvent();
+        moveLeft.setKey(KeyboardEvent.KEY_LEFT);
+        moveLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(moveLeft);
 
-            KeyboardEvent moveRight = new KeyboardEvent();
-            moveRight.setKey(KeyboardEvent.KEY_RIGHT);
-            moveRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-            keyboard.addEventListener(moveRight);
+        KeyboardEvent moveRight = new KeyboardEvent();
+        moveRight.setKey(KeyboardEvent.KEY_RIGHT);
+        moveRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(moveRight);
+
     }
 
     @Override
@@ -88,6 +138,7 @@ public class Plane implements KeyboardHandler {
                 }
                 plane.translate(50, 0);
                 break;
+
 
         }
     }
