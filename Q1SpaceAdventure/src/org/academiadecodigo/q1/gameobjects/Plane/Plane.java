@@ -9,32 +9,33 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-
 public class Plane implements KeyboardHandler {
 
     private int life;
-    private Picture plane;
-    private String scoreIntext;
+    private String scoreString;
     private Text scoreText;
+    private Picture plane;
     private Picture zeroLives;
     private Picture oneLife;
     private Picture twoLives;
     private Picture threeLives;
 
-
     public Plane() {
         this.life = 3;
         this.plane = new Picture(380, 740, "spaceShip_67x85.png");
-        this.plane.draw();
+
         threeLives = new Picture(10, 10, "3lives.png");
         twoLives = new Picture(10, 10, "2lives.png");
         oneLife = new Picture(10, 10, "1life.png");
         zeroLives = new Picture(10, 10, "0life.png");
     }
 
+    public void draw() {
+        this.plane.draw();
+    }
+
     public void drawLifePictures() {
         switch (life) {
-
             case 3:
                 threeLives.draw();
                 break;
@@ -49,25 +50,7 @@ public class Plane implements KeyboardHandler {
 
             case 0:
                 zeroLives.draw();
-
         }
-
-    }
-
-    public int getLife() {
-        return life;
-    }
-
-    public void setLife(int life) {
-        this.life -= life;
-    }
-
-    public void setTextScore(int playerScore) {
-        scoreIntext = String.valueOf(playerScore);
-
-        scoreText = new Text(700, 100, scoreIntext);
-        scoreText.setColor(Color.WHITE);
-        scoreText.grow(25, 25);
     }
 
     public void drawScoreText() {
@@ -102,7 +85,6 @@ public class Plane implements KeyboardHandler {
     }
 
     public void movePlane() {
-
         Keyboard keyboard = new Keyboard(this);
 
         KeyboardEvent moveLeft = new KeyboardEvent();
@@ -115,19 +97,41 @@ public class Plane implements KeyboardHandler {
         moveRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(moveRight);
 
+        KeyboardEvent moveUp = new KeyboardEvent();
+        moveUp.setKey(KeyboardEvent.KEY_UP);
+        moveUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(moveUp);
+
+        KeyboardEvent moveDown = new KeyboardEvent();
+        moveDown.setKey(KeyboardEvent.KEY_DOWN);
+        moveDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(moveDown);
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life -= life;
+    }
+
+    public void setTextScore(int playerScore) {
+        scoreString = String.valueOf(playerScore);
+
+        scoreText = new Text(700, 70, scoreString);
+        scoreText.setColor(Color.WHITE);
+        scoreText.grow(15, 20);
     }
 
     @Override
     public void keyPressed(KeyboardEvent event) {
-
         switch (event.getKey()) {
-
             case KeyboardEvent.KEY_LEFT:
                 if (plane.getX() <= 30) {
                     plane.translate(0, 0);
                     break;
                 }
-
                 plane.translate(-50, 0);
                 break;
 
@@ -139,14 +143,25 @@ public class Plane implements KeyboardHandler {
                 plane.translate(50, 0);
                 break;
 
+            case KeyboardEvent.KEY_UP:
+                if (plane.getY() <= 300) {
+                    plane.translate(0, 0);
+                    break;
+                }
+                plane.translate(0, -50);
+                break;
 
+            case KeyboardEvent.KEY_DOWN:
+                if (plane.getY() >= 780) {
+                    plane.translate(0, 0);
+                    break;
+                }
+                plane.translate(0, 50);
+                break;
         }
     }
 
-
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
-
     }
-
 }

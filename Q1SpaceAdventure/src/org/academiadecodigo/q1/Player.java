@@ -1,6 +1,5 @@
 package org.academiadecodigo.q1;
 
-
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -12,19 +11,8 @@ public class Player implements KeyboardHandler {
     private boolean start = true;
     private boolean restart;
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score += score;
-    }
-
-
     public void startButton() {
-
         Keyboard keyboard = new Keyboard(this);
-
         KeyboardEvent start = new KeyboardEvent();
         start.setKey(KeyboardEvent.KEY_1);
         start.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
@@ -32,35 +20,11 @@ public class Player implements KeyboardHandler {
     }
 
     public void restartButton() {
-
         Keyboard keyboard = new Keyboard(this);
-
         KeyboardEvent restart = new KeyboardEvent();
         restart.setKey(KeyboardEvent.KEY_SPACE);
         restart.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(restart);
-    }
-
-    @Override
-    public void keyPressed(KeyboardEvent event) {
-
-        switch (event.getKey()) {
-
-            case KeyboardEvent.KEY_1:
-                System.out.println("Key 1 pressed");
-                start = false;
-                break;
-
-            case KeyboardEvent.KEY_SPACE:
-                System.out.println("Space pressed");
-                restart = true;
-                break;
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
-
     }
 
     public boolean isStart() {
@@ -77,5 +41,32 @@ public class Player implements KeyboardHandler {
 
     public void setRestart() {
         this.restart = false;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score += score;
+    }
+
+    @Override
+    public void keyPressed(KeyboardEvent event) {
+        switch (event.getKey()) {
+            case KeyboardEvent.KEY_1:
+                System.out.println("Key 1 pressed");
+                start = false;
+                break;
+
+            case KeyboardEvent.KEY_SPACE:
+                System.out.println("Space pressed");
+                restart = true;
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyboardEvent keyboardEvent) {
     }
 }

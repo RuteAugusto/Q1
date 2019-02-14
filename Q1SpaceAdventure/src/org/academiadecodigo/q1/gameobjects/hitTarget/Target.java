@@ -7,15 +7,9 @@ public abstract class Target {
     public static final int MAXPixelWhereToAppear = 710;
     public static final int PIXELWHERETODISAPPEAR = 820;
 
-
-
     public int random(int min, int max) {
         return  (int) (Math.random() * (max - min) + 1);
     }
-
-    public abstract int getHeight();
-
-    public abstract int getWidth();
 
     public abstract void moveTarget();
 
@@ -26,4 +20,8 @@ public abstract class Target {
     public abstract void eraseTarget();
 
     public abstract boolean isErased();
+
+    public abstract int getHeight();
+
+    public abstract int getWidth();
 }
