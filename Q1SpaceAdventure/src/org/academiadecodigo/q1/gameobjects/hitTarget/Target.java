@@ -1,9 +1,7 @@
 package org.academiadecodigo.q1.gameobjects.hitTarget;
 
-import org.academiadecodigo.q1.Destroyable;
 
-
-public abstract class Target implements Destroyable {
+public abstract class Target {
 
     public static final int MINPixelWhereToAppear = 20;
     public static final int MAXPixelWhereToAppear = 710;
@@ -28,10 +26,4 @@ public abstract class Target implements Destroyable {
     public abstract void eraseTarget();
 
     public abstract boolean isErased();
-
-
-
-    @Override
-    public void destroy() {
-    }
 }

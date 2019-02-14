@@ -1,6 +1,5 @@
 package org.academiadecodigo.q1.gameobjects.Plane;
 
-import org.academiadecodigo.q1.Destroyable;
 import org.academiadecodigo.q1.gameobjects.hitTarget.Target;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
@@ -12,7 +11,6 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class Plane implements KeyboardHandler {
 
     private int life;
-    private boolean destroyed;
     private Picture plane;
 
 
@@ -57,17 +55,17 @@ public class Plane implements KeyboardHandler {
 
     public void movePlane() {
 
-        Keyboard keyboard = new Keyboard(this);
-        KeyboardEvent moveLeft = new KeyboardEvent();
-        moveLeft.setKey(KeyboardEvent.KEY_LEFT);
-        moveLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(moveLeft);
+            Keyboard keyboard = new Keyboard(this);
 
-        KeyboardEvent moveRight = new KeyboardEvent();
-        moveRight.setKey(KeyboardEvent.KEY_RIGHT);
-        moveRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(moveRight);
+            KeyboardEvent moveLeft = new KeyboardEvent();
+            moveLeft.setKey(KeyboardEvent.KEY_LEFT);
+            moveLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+            keyboard.addEventListener(moveLeft);
 
+            KeyboardEvent moveRight = new KeyboardEvent();
+            moveRight.setKey(KeyboardEvent.KEY_RIGHT);
+            moveRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+            keyboard.addEventListener(moveRight);
     }
 
     @Override
@@ -76,22 +74,20 @@ public class Plane implements KeyboardHandler {
         switch (event.getKey()) {
 
             case KeyboardEvent.KEY_LEFT:
-                System.out.println("LEFT");
-                if (plane.getX() == 20) {
+                if (plane.getX() <= 30) {
                     plane.translate(0, 0);
                     break;
                 }
 
-                plane.translate(-30, 0);
+                plane.translate(-50, 0);
                 break;
 
             case KeyboardEvent.KEY_RIGHT:
-                if (plane.getMaxX() >= 800) {
+                if (plane.getMaxX() >= 780) {
                     plane.translate(0, 0);
                     break;
                 }
-                System.out.println("RIGHT");
-                plane.translate(30, 0);
+                plane.translate(50, 0);
                 break;
 
         }
