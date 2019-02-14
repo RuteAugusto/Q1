@@ -66,9 +66,9 @@ public class Game {
         gameOver = new Picture(10, 10, "GameOver_800x900.png");
         zeroLives = new Picture(10, 10, "0life.png");
 
-        gameMusic = new Sound("/resources/Space_Lady.wav");
-        gameOverSound = new Sound("/resources/game-over-arcade.wav");
-        ohNoSound = new Sound("/resources/oh no sound effect.wav");
+        gameMusic = new Sound("/Space_Lady.wav");
+        gameOverSound = new Sound("/game-over-arcade.wav");
+        ohNoSound = new Sound("/oh no sound effect.wav");
 
         plane.movePlane();
 

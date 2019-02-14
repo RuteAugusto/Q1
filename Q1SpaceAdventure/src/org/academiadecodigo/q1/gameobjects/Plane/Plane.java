@@ -16,7 +16,7 @@ public class Plane implements KeyboardHandler {
 
     public Plane() {
         this.life = 3;
-        this.plane = new Picture(380, 740, "resources/spaceShip_67x85.png");
+        this.plane = new Picture(380, 740, "spaceShip_67x85.png");
         this.plane.draw();
     }
 
