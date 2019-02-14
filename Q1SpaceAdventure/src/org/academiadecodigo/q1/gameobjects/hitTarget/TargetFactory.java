@@ -13,11 +13,11 @@ public class TargetFactory {
         TargetType newType = targetType[0];
 
 
-        if (randomNumber <= 79) {
+        if (randomNumber <= 10) {
             return new Asteroid();
         }
 
-        if (randomNumber > 79) {
+        if (randomNumber > 10) {
             return new Astronaut();
         }
 

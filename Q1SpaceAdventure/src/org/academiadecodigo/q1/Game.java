@@ -97,11 +97,17 @@ public class Game {
         zeroLives = new Picture(10, 10, "0life.png");
     }
 
+<<<<<<< HEAD
     private void initSound() {
         gameMusic = new Sound("/resources/Space_Lady.wav");
         gameOverSound = new Sound("/resources/game-over-arcade.wav");
         ohNoSound = new Sound("/resources/oh no sound effect.wav");
     }
+=======
+        gameMusic = new Sound("/Space_Lady.wav");
+        gameOverSound = new Sound("/game-over-arcade.wav");
+        ohNoSound = new Sound("/oh no sound effect.wav");
+>>>>>>> 43c1ce1720c9cd163887cfe1aa42657c09610543
 
 
     public void start() {
@@ -251,12 +257,19 @@ public class Game {
 
                     System.out.println(player.getScore());
                     System.out.println(delay + ", " + delayNano);
-                    if (delayNano == 1) {
-                        delay--;
-                        delayNano = 900001;
-                        continue;
+                    if (delay != 1 || delayNano != 1) {
+                        if (delayNano == 1) {
+                            delay--;
+                            delayNano = 900001;
+                            continue;
+                        }
+                        delayNano -= 100000;
+                        //rescued++;
                     }
+<<<<<<< HEAD
                     delayNano -= 100000;
+=======
+>>>>>>> 43c1ce1720c9cd163887cfe1aa42657c09610543
                 }
 
                 if (iterator instanceof Asteroid) {
