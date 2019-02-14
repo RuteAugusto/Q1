@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<project name="Q1SpaceAdventure" basedir="." default="jarfile">
+    <target name="init" description="Initializes properties"> <property name="project.name" value="Q1SpaceAdventure"/> <property name="src.dir" value="src"/>
+        <property name="build.dir" value="build"/>
+        <property name="classes.dir" value="${build.dir}/classes"/> <property name="etc.dir" value="etc"/>
+        <property name="main.pathway"
+                  value="org.academiadecodigo.q1d"/> </target>
+    <target name="prepare" description="Creates the build, classes and etc directories and also the MANIFEST file" depends="init">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${etc.dir}"/>
+        <mkdir dir="${etc.dir}"/>
+        <manifest file="${etc.dir}/MANIFEST.MF">
+            <attribute name="Main-Class" value="${main.pathway}.Main"/> </manifest>
+    </target>
+    <target name="compile" description="Compiles the code" depends="prepare">
+        <javac srcdir="${src.dir}" destdir="${src.dir}"/> </target>
+    <target name="jarfile" description="Archives the code" depends="compile"> <jar destfile="${build.dir}/${project.name}.jar" basedir="${classes.dir}"
+                                                                                   manifest="${etc.dir}/MANIFEST.MF"/> </target>
+    <target name="clean" description="Clean up" depends="init"> <delete dir="${build.dir}"/>
+    </target> </project>

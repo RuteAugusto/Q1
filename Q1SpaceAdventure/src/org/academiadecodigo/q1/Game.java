@@ -27,10 +27,7 @@ public class Game {
 
     private Picture menu;
     private Picture instructions;
-    private Picture zeroLives;
-    private Picture oneLife;
-    private Picture twoLives;
-    private Picture threeLives;
+
     private Picture gameOver;
 
     private Sound gameMusic;
@@ -54,17 +51,11 @@ public class Game {
         plane = new Plane();
         movingTargets = new LinkedList<>();
 
+        plane.setTextScore(player.getScore());
 
-        score = String.valueOf(player.getScore());
-        text = new Text(700, 100, score);
-        text.setColor(Color.WHITE);
-        text.grow(25,25);
 
-        threeLives = new Picture(10, 10, "3lives.png");
-        twoLives = new Picture(10, 10, "2lives.png");
-        oneLife = new Picture(10, 10, "1life.png");
         gameOver = new Picture(10, 10, "GameOver_800x900.png");
-        zeroLives = new Picture(10, 10, "0life.png");
+
 
         gameMusic = new Sound("/Space_Lady.wav");
         gameOverSound = new Sound("/game-over-arcade.wav");
@@ -89,10 +80,9 @@ public class Game {
 
         instructions.delete();
 
-        threeLives.draw();
+      plane.drawLifePictures();
 
-        text.draw();
-
+        plane.drawScoreText();
 
 
         movingTargets.add(TargetFactory.createTarget());
@@ -114,9 +104,9 @@ public class Game {
 
         gameOver.draw();
 
-        text.delete();
-        zeroLives.draw();
-        text.draw();
+        plane.deleteScoreText();
+       plane.drawLifePictures();
+        plane.drawScoreText();
 
         gameMusic.stop();
         gameMusic.close();
@@ -140,15 +130,15 @@ public class Game {
     public void checkLife() {
 
         if (plane.getLife() == 2) {
-            text.delete();
-            twoLives.draw();
-            text.draw();
+            plane.deleteScoreText();
+            plane.drawLifePictures();
+            plane.drawScoreText();
         }
 
         if (plane.getLife() == 1) {
-            text.delete();
-            oneLife.draw();
-            text.draw();
+            plane.deleteScoreText();
+            plane.drawLifePictures();
+            plane.drawScoreText();
         }
     }
 
@@ -186,25 +176,13 @@ public class Game {
 
 
                 if (iterator instanceof Astronaut) {
-                    text.delete();
+                    plane.deleteScoreText();
                     player.setScore(1);
-                    score = String.valueOf(player.getScore());
-                    text = new Text(700, 75, score);
-                    text.setColor(Color.WHITE);
-                    text.grow(25,25);
-                    text.draw();
+                    plane.setTextScore(player.getScore());
+                    plane.drawScoreText();
+                    setNewThreadSleep();
 
-                    System.out.println(player.getScore());
-                    System.out.println(delay + ", " + delayNano);
-                    if (delay != 1 || delayNano != 1) {
-                        if (delayNano == 1) {
-                            delay--;
-                            delayNano = 900001;
-                            continue;
-                        }
-                        delayNano -= 100000;
-                        //rescued++;
-                    }
+
                 }
 
                 if (iterator instanceof Asteroid) {
@@ -216,6 +194,20 @@ public class Game {
                 iterator.eraseTarget();
                 break;
             }
+        }
+    }
+
+    public void setNewThreadSleep(){
+        System.out.println(player.getScore());
+        System.out.println(delay + ", " + delayNano);
+        if (delay != 1 || delayNano != 1) {
+            if (delayNano == 1) {
+                delay--;
+                delayNano = 900001;
+
+            }
+            delayNano -= 100000;
+            //rescued++;
         }
     }
 }
