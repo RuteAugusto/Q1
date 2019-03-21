@@ -25,13 +25,13 @@ Nested Classes<br>
 
 # Space Adventure
 At some point in history, mankind decided that Earth wasn't enough, so they went to space and colonized several new planets.<br>
-In this effort some voyages were a great success, other were a terribly failure...<br>
-Space Adventure is about one of this voyages that went terribly wrong.<br>
-Because of poorly calculated route, your mothership entered an asteroids ring, and crashed!<br>
-As a last minute resort, the commander of the ship order that every one suits up their's space suit in order to maximize
+In this effort some voyages were a great success and others, a terribly failure...<br>
+Space Adventure is about one of those voyages that went terribly wrong.<br>
+Because of poorly calculated route, the mothership entered an asteroid ring and crashed!<br>
+As a last minute resort, the commander of the ship ordered every one to make use of their space suits in order to maximize
 their chances of survival in outter space.<br>
 A few small space ships managed to escape from the final blast of the mothership.<br>
-You are the pilot of one of that ships. Your misson: Rescue as many astronauts as you can!<br>
+In this game, you are now the pilot of one of those ships, where your misson is to rescue as many astronauts as you can!<br>
 Are you ready for the task?<br>
 
-Move using arrow keys you are able to avoid asteroids and rescue astronauts.
+Using arrow keys you are able to avoid asteroids and rescue astronauts.
